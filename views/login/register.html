@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<link rel="stylesheet" type="text/css" href="/css/zhuce.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body>
+		<section>
+			<div class="logo"><p>注册新用户</p></div>
+				<span id="yiyou">已有账号<a href="login" style="color: palevioletred;">去登录</a></span>
+				<form id="my-form" action="register" method="POST">
+					<label for="account">用户名: </label>
+					<input id="account" type="text" name="account" id="account" style="padding-left: 20px;" placeholder="请输入用户名" required/>
+					<span style="position:relative;left: 130px;">用户名注册后不可更改！</span>
+					<br /><br />
+					<label for="password">密码: </label>
+					<input id="password" type="password" name="password" id="password" style="padding-left: 20px;" placeholder="请输入密码" required/>
+					<br /><br />
+					<label for="password">确认密码: </label>
+					<input id="passwordagain" type="password" name="re-password" id="password" style="padding-left: 20px;" placeholder="请再次输入密码" required/>
+					<br /><br />
+					<label for="e-mail">邮箱： </label>
+					<input id="e-mail" type="email" name="email" id="e-mail" style="padding-left: 20px;" placeholder="请输入邮箱" required/>
+					<br /><br />
+					<input class="input1" type="submit" value="注册"/>
+				</form>
+		</section>
+	</body>
+
+	<script>
+		$('#my-form').submit(function(e){
+			e.preventDefault();
+			if($(this).find('input[name="password"]').val() == $(this).find('input[name="re-password"]').val()){
+				$.ajax({
+					url: 'register',
+					type: 'post',
+					data: $('#my-form').serialize(),
+					dataType: 'json',
+					success: function(res){
+						if(res.status == 1){
+							alert('注册成功，准备跳转...');
+							window.location.href = 'login';
+						}else{
+							alert(res.msg);
+						}
+					}
+				});
+			}else {
+				alert('两次密码输入有差异!');
+			}
+			
+		});
+	</script>
+</html>

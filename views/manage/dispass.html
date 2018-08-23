@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			html{
+				height: 1000px;
+				overflow-y: auto;
+			}
+			body{
+				margin: 0;
+				padding: 0;
+				height: 990px;
+				overflow-y: auto;
+			}
+			.daohang>div{
+				width: 80%;
+				position: relative;
+				left: 10%;
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.neirong{
+				display: inline;
+				position: relative;
+				left: 5%;
+				display: flex;
+				justify-content: space-between;
+				margin: 15px;
+			}
+			.neirong>div{
+				display: inline-block;
+			}
+			.tu{
+				background-image: url(/images/tupian.jpg);
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				height: 120px;
+				width: 120px;
+			}
+			.jutineirong{
+				position: relative;
+				left: 20px;
+			}
+			.jutineirong span{
+				display: block;
+				margin: 5px;
+			}
+			.caozuo{
+				position: relative;
+				top: 20px;
+				left: -195px;
+				text-align: center;
+			}
+			
+			
+			
+		</style>
+		
+	</head>
+	<body>
+		<div class="daohang">
+			<div>
+				<span>图片</span>
+				<span>内容</span>
+				<span>操作</span>
+			</div>
+		</div>
+		<hr />
+		
+		{{each dispassData}}
+		<section class="neirong">
+			<div class="tu" style="background-image: url(/uploads/{{$value.imgName}})"></div>
+			<div class="jutineirong">
+				<span>标题：{{$value.fileName}}</span>
+				<span>类型：{{$value.type}}</span>
+				<span>类别：{{$value.parentKind}} > {{$value.kind}}</span>
+				<span>参数：{{$value.fileType}} | {{$value.size}}KB</span>
+				<span>发布时间：{{$value.uploadTime}}</span>
+			</div>
+			<div class="caozuo">
+				<span>未通过</span><br /><br />
+				<span style="font-size: 13px;color: red;">原因：<b style="color: red">{{$value.reason}}</b></span>
+			</div>
+		</section>
+		<div style="border: 1px dashed darkgray;position: relative;top: 5px;"></div>
+		{{/each}}
+		
+	</body>
+</html>

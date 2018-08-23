@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>上传</title>
+	<!--<link  rel="stylesheet" type="text/css" href="/css/shangchuan.css"/>-->
+	<link rel="stylesheet" href="/plugin/ssi-uploader/ssi-uploader/styles/ssi-uploader.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/plugin/ssi-uploader/ssi-uploader/js/ssi-uploader.js"></script>
+</head>
+
+<body>
+	<div>
+		<select id="class-one"> 
+			<option value="0">----请选择大类----</option> 
+			<option value="1">设计</option> 
+			<option value="2">摄影</option> 
+			<option value="3">多媒体</option> 
+			</select>
+		<select class="class-two"> 
+			<option>请选择小类</option> 
+		</select>
+		<select class="class-two" style="display: none"> 
+				<option>动漫动画</option>
+				<option>文化艺术</option>
+				<option>标志图标</option>
+				<option>底纹边框</option>
+				<option>3D设计</option>
+				<option>人物图库</option>
+				<option>自然景观</option>
+				<option>生物世界</option>
+				<option>生活百科</option>
+				<option>现代科技</option>
+				<option>商务金融</option>
+				<option>环境设计</option>
+				<option>广告设计</option>
+				<option>摄影模板</option>
+				<option>PSD分层素材</option>
+				<option>web界面设计</option>
+				<option>移动界面设计</option>
+				<option>淘宝界面设计</option>
+				<option>其他</option>
+		</select>
+		<select class="class-two" style="display: none"> 
+				<option>旅游摄影</option>
+				<option>自然景观</option>
+				<option>生物世界</option>
+				<option>人物图库</option>
+				<option>生活百科</option>
+				<option>现代科技</option>
+				<option>文化艺术</option>
+				<option>建筑园林</option>
+				<option>商务金融</option>
+				<option>餐饮美食</option>
+				<option>其他</option>
+		</select>
+		<select class="class-two" style="display: none"> 
+				<option>Flash动画</option> 
+				<option>实拍视频</option> 
+				<option>PPT</option> 
+				<option>影视编辑</option> 
+				<option>字体下载</option>
+				<option>PS笔刷</option> 
+				<option>PS插件</option>  
+		</select>
+		<select id="level">
+			<option value="0">普通</option>
+			<option value="1">原创</option>
+		</select>
+	</div>
+	<div style="margin: 20px 0">
+		<input type="file" multiple id="file-upload" name="user-works" />
+	</div>
+	<div>
+		<input type="file" multiple id="ssi-upload" name="works-preview" style="display: none"/>
+	</div>
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+	var currentShowClass = 0;
+	$('#file-upload').ssi_uploader({
+		url: '/Personal/works_upload',
+		preview: false,
+		maxFileSize: 50,
+		maxNumberOfFiles: 1,
+		allowed: ['txt', 'psd','jpg','jpeg','gif','png','ai','pptx','rar'],
+		beforeUpload: function(){
+			if($("#class-one").val() == 0 || $(".class-two")[currentShowClass].value == '请选择小类'){
+				alert('请填写分类信息');
+				this.url = 'http://www.baidu.com';
+			}else{
+				this.data = {parentKind: $("#class-one").val(), kind: $(".class-two")[currentShowClass].value, isOrigin: $('#level').val()};
+				this.url = '/Personal/works_upload';
+			}
+		},
+		onEachUpload: function(res){
+			// console.log(res);
+			if(res.uploadStatus == 'success'){
+				alert('请再上传一张预览图!');
+				//隐藏清空按钮
+				$('.ssi-uploaderNP .ssi-buttonWrapper').hide();
+				var imgId = res.responseMsg.imgId;
+				//图片上传插件ssi-upload
+				$('#ssi-upload').ssi_uploader({
+					url: '/Personal/preview_upload',
+					data: {imgId: imgId},
+					preview: true,
+					maxFileSize: 6,
+					maxNumberOfFiles: 1,
+					allowed: ['jpg', 'jpeg', 'png', 'bmp', 'gif']
+				});
+			}else{
+				alert('文件上传失败，请重新上传!');
+			}
+		}
+	});
+
+	//分类二级联动
+	$("#class-one").change(function () {
+		var that = this;
+		$("#class-one option").each(function (i) {
+			if ($(that).val() == i) {
+				$(".class-two").hide();
+				$(".class-two").eq(i).show();
+				currentShowClass = i;
+			}
+		});
+	});
+
+</script>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>原创等级</title>
+		<link rel="stylesheet" type="text/css" href="/css/yonghudengji.css" />
+		<script src="/js/jquery.min.js"></script>
+		<script src="/plugin/layer/layer/layer.js"></script>
+		<style>
+			html,body{
+				width: 100%;
+			}
+			body{
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="textContain">
+			<span>原创等级：<a href="">{{commonLevel}}</a> &#X3000;<a>{{commonName}}</a></span><br /><br />
+			<span>普通等级：<a href="">{{originLevel}}</a> &#X3000;<a>{{originName}}</a></span>
+			<div><a id="level" href="#">等级说明</a></div>
+		</div>
+		<script>
+			$('#level').click(function(e){
+				e.preventDefault();
+				var htmlStr = `<div style="display: flex">
+									<div style="flex-basis:50%;margin-left:15px;">
+										<p>0—100&#x3000;图网列兵&#x3000;LV1</p><p>101—500&#x3000;图网下士&#x3000;LV2</p><p>501—2000&#x3000;图网中士&#x3000;LV3</p><p>2001—5000&#x3000;图网上士&#x3000;LV4</p><p>5001—10000&#x3000;图网少尉&#x3000;LV5</p>
+										<p>10001—50000&#x3000;图网中尉&#x3000;LV6</p><p>50001—100000&#x3000;图网上尉&#x3000;LV7</p><p>100001—300000&#x3000;图网少校&#x3000;LV8</p><p>300001—800000&#x3000;图网中校&#x3000;LV9</p><p>800001—1500000&#x3000;图网上校&#x3000;LV10</p>
+									</div>
+							   </div>`;
+				layer.open({
+					type: 1,
+					skin: 'layui-layer-rim', //加上边框
+					area: ['550px', '400px'], //宽高
+					content: htmlStr
+				});
+			});
+		</script>
+	</body>
+</html>
+
+
+<!--
+积分等级
+0—100图网列兵    LV1
+101—500图网下士   LV2
+501—2000图网中士   LV3
+2001—5000图网上士   LV4
+5001—10000图网少尉   LV5
+10001—50000图网中尉   LV6
+50001—100000图网上尉   LV7
+100001—300000图网少校   LV8
+300001—800000图网中校   LV9
+800001—1500000图网上校   LV10
+-->

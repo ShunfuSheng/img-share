@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>作品管理</title>
+		<script src="/js/jquery.min.js"></script>
+		<style type="text/css">
+			.chuli div{
+				padding: 10px;
+				display: inline-block;
+				border: 1px solid steelblue;
+				border-radius: 10px;
+				cursor: pointer;
+			}
+			.nav{
+				width: 100%;
+				margin: auto;
+			}
+			.nav ul{
+				list-style: none;
+				
+			}
+			.nav ul li{
+				display: flex;
+				justify-content: space-between;
+			}
+			.photo{
+				/*background-image: url(/images/bj.jpg);*/
+				background-size: 100% 100%;
+				width: 100px !important;
+				height: 100px;
+				border: 3px solid gainsboro;
+			}
+			.eg{
+				overflow: hidden;
+				border-top: 2px solid gainsboro;
+				border-bottom: 2px solid gainsboro;
+				padding: 10px;
+				margin-bottom: 20px;
+			}
+			.eg > div{
+				width: 40%;
+				float: left;
+				text-align: right;
+			}
+			.eg > div > div{
+				margin-top: 20px;
+			}
+			.imgInfo{
+				height: 400px;
+				overflow-y: auto;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="chuli">
+			<div>待处理 &#X3000;<a>{{data.totalWait}}</a></div>
+			<div>未通过 &#X3000;<a>{{data.totalDispass}}</a></div>
+			<div>全部作品 &#X3000;<a>{{data.total}}</a></div>
+		</section>
+		<section class="nav">
+			<ul>
+				<li>
+					<a>预览图</a>
+					<a>图片信息</a>
+					<a>操作</a>
+				</li>
+			</ul>
+		</section>
+
+		<!--待处理图片-->
+		<div class="imgInfo" style="display: none">
+			{{each data.waitImg}}
+			<section class="eg">
+				<div class="photo" style="background-image: url({{$value.imgLink}})"></div>
+				<div>
+					<span>{{$value.fileName}}</span>
+					<div>
+						<a>参数：{{$value.fileType}}</a>
+						<span>|</span>
+						<a>{{$value.fileSize}}KB</a>
+					</div>
+				</div>
+				<div class="caozuo">
+					<a href="/Personal/delete/{{$value.id}}">删除</a>
+					<input type="checkbox" class="check-single" data-id="{{$value.id}}">
+				</div>
+			</section>
+			{{/each}}
+		</div>
+
+		<!--未通过图片-->
+		<div class="imgInfo" style="display: none" data-id="1">
+			{{each data.dispassImg}}
+			<section class="eg">
+				<div class="photo" style="background-image: url({{$value.imgLink}})"></div>
+				<div>
+					<span>{{$value.fileName}}</span>
+					<div>
+						<a>参数：{{$value.fileType}}</a>
+						<span>|</span>
+						<a>{{$value.fileSize}}KB</a>
+					</div>
+				</div>
+				<div class="caozuo">
+					<a href="/Personal/delete/{{$value.id}}">删除</a>
+					<input type="checkbox" class="check-single" data-id="{{$value.id}}">
+				</div>
+			</section>
+			{{/each}}
+		</div>
+
+		<!--总图片-->
+		<div class="imgInfo" data-id="2">
+			{{each data.totalImg}}
+			<section class="eg">
+				<div class="photo" style="background-image: url({{$value.imgLink}})"></div>
+				<div>
+					<span>{{$value.fileName}}</span>
+					<div>
+						<a>参数：{{$value.fileType}}</a>
+						<span>|</span>
+						<a>{{$value.fileSize}}KB</a>
+					</div>
+				</div>
+				<div class="caozuo">
+					<a href="/Personal/delete/{{$value.id}}">删除</a>
+					<input type="checkbox" class="check-single" data-id="{{$value.id}}">
+				</div>
+			</section>
+			{{/each}}
+		</div>
+
+		<button id="remove-all">批量删除</button>
+		<div style="margin-top: 20px">
+			<input type="checkbox" id="check-all" />
+			<label for="check-all">全选</label>
+		</div>
+		</section>
+	</body>
+
+	<script>
+		//tab切换
+		$('.chuli > div').each(function(index, item){
+			$(item).click(function(){
+				$('.imgInfo').hide();
+				$('.imgInfo').eq(index).show();
+			});
+		})
+
+		//全选操作
+		$('#check-all').click(function(){
+			if(this.checked){
+				$('.imgInfo:visible').find('.check-single').each(function(index, item){
+					item.checked = true;
+				});
+			}else{
+				$('.imgInfo:visible').find('.check-single').each(function(index, item){
+					item.checked = false;
+				});
+			}
+		})
+
+		//批量删除
+		$('#remove-all').click(function(){
+			var r = window.confirm('你确定要删除选中的图片？');
+			if(r){
+				var checkImgs = $('.imgInfo:visible').find('.check-single:checked');
+				var arr = [];
+				checkImgs.each(function(){
+					arr.push($(this).data('id'));
+				});
+				window.location.href = '/Personal/delete?index=' + arr;
+			}else{
+				return;
+			}
+		});
+	</script>
+</html>

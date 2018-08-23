@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="/css/index1.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body>
+		<main>
+			<section>
+				<div class="logo"><p>登录</p></div>
+				<form action="login" method="POST">
+					<label for="account">用户名: </label>
+					<input id="account" type="text" name="account" id="account" style="padding-left: 20px;" placeholder="请输入用户名"/>
+					<br /><br />
+					<label for="password">密码: </label>
+					<input id="password" type="password" name="password" id="password" style="padding-left: 20px;" placeholder="请输入密码"/>
+					<br /><br />
+					<input class="input1" type="submit" value="登录"/>
+					<input class="input1" onclick="location.href='register'" type="button" value="注册"/>
+					<input class="input1" onclick="location.href='forget_pwd'" type="button" value="忘记密码"/>
+				</form>
+			</section>
+		</main>
+	</body>
+	<script>
+		$('form').submit(function(e){
+			//阻止表单的默认提交事件
+			e.preventDefault();
+			$.ajax({
+				url: 'login',
+				type: 'post',
+				data: $('form').serialize(),
+				dataType: 'json',
+				success: function(res){
+					if(res.status == 200){
+						alert(res.msg);
+						window.location.href = '/Index';
+					}else {
+						alert(res.msg);
+					}
+				},
+				error: function(err){
+					console.dir(err);
+				}
+			});
+		});
+	</script>
+</html>
+
+
+
+
+
+
+

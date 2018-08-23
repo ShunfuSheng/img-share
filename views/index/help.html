@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>帮助中心</title>
+		<link rel="stylesheet" type="text/css" href="/css/bangzhuzhongxin.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body>
+		<main>
+			<section>
+				<section class="biaoti"><span><img src="/images/帮助.png" />&#X3000;帮助中心</span></section>
+				<section class="nav">
+					<a scrolling="no" href="/help-iframe/关于图网.html" target="right">关于图网</a>
+					<a scrolling="no" href="/help-iframe/发布作品.html" target="right">发布作品</a>
+					<a scrolling="no" href="/help-iframe/作品下载.html" target="right">作品下载</a>
+					<a scrolling="no" href="/help-iframe/等级积分.html" target="right">等级积分</a>
+				</section>
+			</section>
+			<iframe scrolling="no" src="/help-iframe/关于图网.html" name="right" ></iframe>
+		</main>
+	</body>
+	<script>
+		$('.nav > a').click(function(e){
+			var that = e.currentTarget;
+			$('.nav > a').removeClass('special');
+			$(that).addClass('special');
+		});
+	</script>
+</html>

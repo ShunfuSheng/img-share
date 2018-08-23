@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<link rel="stylesheet" type="text/css" href="/css/index4.css" />
+		<link rel="stylesheet" href="/plugin/Font-Awesome/css/font-awesome.min.css">
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/unslider.min.js"></script>
+	</head>
+	<body>
+		{{include '../tpl/head'}}
+		
+		<main>
+			<div class="sousuo">
+				<img src="/images/sun.png"/>
+				<input id="keyword" type="text" style="padding-left: 20px;" placeholder="请输入搜索内容"/>
+				<span id="search"/>搜索</span>
+			</div>
+			<section class="lunbotu">
+				<div class="banner" id="b04">
+					<ul>
+						<li><img src="/images/1.jpg" alt="" width="500" height="360" /></li>
+						<li><img src="/images/2.jpg" alt="" width="500" height="360" /></li>
+						<li><img src="/images/3.jpg" alt="" width="500" height="360" /></li>
+						<li><img src="/images/4.jpg" alt="" width="500" height="360" /></li>
+					</ul>
+				</div>
+				<div class="resou">
+					<div><img src="/images/resou.png" />&#x3000;一周热搜</div>
+					<div class="search-words"></div>
+				</div>
+			</section>
+
+			<section class="fenlei">
+				<div class="show">
+					<div class="classify" style="background-color: pink">
+						<h2 class="title" style="color: deeppink" data-id="设计">设计图库</h2>
+						<div class="item" style="background-color: pink">
+							<span>动漫动画</span>
+							<span>文化艺术</span>
+							<span>标志图标</span>
+							<span>底纹边框</span>
+							<span>3D设计</span>
+							<span>人物图库</span>
+							<span>自然景观</span>
+							<span>生物世界</span>
+							<span>生活百科</span>
+							<span>现代科技</span>
+							<span>商务金融</span>
+							<span>环境设计</span>
+							<span>广告设计</span>
+							<span>摄影模板</span>
+							<span>PSD分层素材</span>
+							<span>web界面设计</span>
+							<span>移动界面设计</span>
+							<span>淘宝界面设计</span>
+							<span>其他</span>
+						</div>
+					</div>
+					{{each designData}}
+						<div class="example" onclick="location.href='/Index/grand_classify?kind={{$value.kind}}&pKind={{$value.parentKind}}'">
+							<img src="/uploads/{{$value.imgName}}">
+							<p>{{$value.kind}}</p>
+						</div>
+					{{/each}}
+				</div>
+				<div class="show">
+					<div class="classify" style="background-color: lightblue">
+						<h2 class="title" style="color: blue" data-id="摄影">摄影图库</h2>
+						<div class="item" style="background-color: lightblue">
+							<span>旅游摄影</span>
+							<span>自然景观</span>
+							<span>生物世界</span>
+							<span>人物图库</span>
+							<span>生活百科</span>
+							<span>现代科技</span>
+							<span>文化艺术</span>
+							<span>建筑园林</span>
+							<span>商务金融</span>
+							<span>餐饮美食</span>
+							<span>其他</span>
+						</div>
+					</div>
+					{{each photoData}}
+						<div class="example" onclick="location.href='/Index/grand_classify?kind={{$value.kind}}&pKind={{$value.parentKind}}'">
+							<img src="/uploads/{{$value.imgName}}">
+							<p>{{$value.kind}}</p>
+						</div>
+					{{/each}}
+				</div>
+				<div class="show">
+					<div class="classify" style="background-color: lightblue">
+						<h2 class="title" style="color: blue" data-id="多媒体">多媒体库</h2>
+						<div class="item" style="background-color: lightblue">
+							<span>Flash动画</span>
+							<span>实拍视频</span>
+							<span>PPT</span>
+							<span>影视编辑</span>
+							<span>字体下载</span>
+							<span>PS笔刷</span>
+							<span>PS插件</span>
+						</div>
+					</div>
+					{{each mediaData}}
+						<div class="example" onclick="location.href='/Index/grand_classify?kind={{$value.kind}}&pKind={{$value.parentKind}}'">
+							<img src="/uploads/{{$value.imgName}}">
+							<p>{{$value.kind}}</p>
+						</div>
+					{{/each}}
+				</div>
+			</section>
+		</main>
+		
+		<footer>
+			
+		</footer>
+	</body>
+</html>
+
+
+<script type="text/javascript">
+	$('#b04').unslider({
+		dots: true
+	});
+
+
+	//热搜功能
+	showHotSearch();
+	
+
+	//点击二级分类跳转分类展示页面
+	$('.item > span').click(function(){
+		var kind = $(this).text();
+		var pKind = $(this).parent().siblings('.title').data('id');
+		window.location.href = `/Index/grand_classify?kind=${kind}&pKind=${pKind}`;
+	});
+
+	//搜索功能
+	$('#search').click(function(){
+		$.ajax({
+			url: '/Index/search',
+			type: 'get',
+			data: {keywords: $('#keyword').val()},
+			dataType: 'json',
+			success: function(res){
+				//判断搜索框输入是否为空，如果是则列出全部数据，否则列出对应的搜索数据
+				if(res.status){
+					window.location.reload();
+				}else{
+					var imgData = res.data;
+					var htmlStr = '<div class="result">';
+					imgData.forEach(function(item){
+						var rename = item.imgName.substring(item.imgName.indexOf('-')+1, item.imgName.lastIndexOf('.'))
+						var temp = `<div class="result-item">
+										<a href="/Index/work_detail?id=${item.id}"><i class="icon-camera"></i></a>
+										<img src="/uploads/${item.imgName}">
+										<p>${rename}</p>
+										<h4>积分: ${item.bonusRequire}</h4>
+									</div>`
+						htmlStr += temp;
+					});
+					htmlStr = htmlStr + '</div>';
+					$('.fenlei').html(htmlStr);
+					showHotSearch();
+				}
+			},
+			error: function(err){
+				console.dir(err);
+			}
+		});
+	});
+
+	//鼠标在图片上移入移出效果
+	$('.fenlei').on('mouseenter', '.result-item', function(){
+        $(this).find('a').show();
+	});
+    $('.fenlei').on('mouseleave', '.result-item', function(){
+        $(this).find('a').hide();
+	});
+
+
+	//显示热搜关键词
+	function showHotSearch(){
+		$.ajax({
+			url: '/Index/show_hot_search',
+			type: 'get',
+			dataType: 'json',
+			success: function(res){
+				var keywordsData = res.data;
+				var htmlStr = '';
+				keywordsData.forEach(function(item){
+					var temp = `<a href="javascript:;" onclick="hot(event)">${item.keywords}</a>`
+					htmlStr += temp;
+				});
+				$('.search-words').html(htmlStr);
+			},
+			error: function(err){
+				console.dir(err);
+			}
+		});
+	}
+
+	//点击热搜中的词自动搜索
+	function hot(e){
+		var content = $(e.currentTarget).text();
+		$('#keyword').val(content);
+		$('#search').trigger('click');
+	}
+</script>
+

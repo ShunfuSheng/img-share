@@ -1,0 +1,29 @@
+<header>
+    <section class="nav">
+        <span>欢迎来到我的图网！</span>
+        <div>
+            <ul>
+                <li>
+                    {{if user}}
+                        {{if user == "manager"}}
+                            <span style="position: relative; left: 850px; margin-right: 20px">
+                                欢迎你：<strong style="font-size: 22px">管理员</strong>
+                            </span>
+                        {{else}}
+                            <span onclick="window.location.href='/Index/'" style="cursor: pointer; position: relative; left: 850px; margin-right: 20px">
+                                欢迎你：<strong style="font-size: 22px">{{user}}</strong>
+                            </span>
+                            <a onclick="window.location.href='/Personal/'">个人中心</a>
+                        {{/if}}
+                        <a onclick="window.location.href='/Login/logout'">退出</a>
+                    {{else}}
+                        <a href="/Index/">首页</a>
+                        <a onclick="window.location.href='/Login/login'">登录</a>
+                        <a onclick="window.location.href='/Login/register'">注册</a>
+                    {{/if}}
+                    <a onclick="window.location.href='/Index/help'">帮助中心</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</header>

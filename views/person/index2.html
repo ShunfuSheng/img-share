@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户首页</title>
+		<link rel="stylesheet" type="text/css" href="/css/yonghushouye.css" />
+	</head>
+	<body>
+		<div>
+			<div class="geren">
+				<img src="/uploads/touxiang/{{userInfo.touxiang}}" alt="请上传头像"/>
+				<div>
+					<p>用户名 : <span>{{userInfo.account}}</span></p>&#X3000;&#X3000;&#X3000;
+					<p>原创等级 : <span>{{userInfo.userLevel}}</span></p><br />
+					<p>关注：<span>{{userInfo.totalFocus}}</span></p>&#X3000;&#X3000;&#X3000;&#X3000;&#X3000;
+					<p>粉丝：<span>{{userInfo.totalFans}}</span></p><br />
+					<p>积分 : <span>{{userInfo.totalBonus}}</span></p>&#X3000;&#X3000;&#X3000;&#X3000;&#X3000;
+					<p>邮箱 : <span>{{userInfo.email}}</span></p><br />
+					<p>个性签名：<span>{{userInfo.signature}}</span></p>
+					<footer style="margin-top: 20px;">
+						<button id="editor" style="width: 80px;height: 35px;border-radius: 5px;background-color: yellowgreen;color: white;font-size: 18px;">编辑</button>
+					</footer>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+
+	<script>
+		var editorBtn = document.getElementById('editor');
+		editorBtn.addEventListener('click', function(){
+			window.location.href = '/Personal/user_editor';
+		});
+		// 如果没有上传头像,那么加载默认图片
+//		function defaultHeaderImage(th){
+//			th.src = '../public/images/photo.gif'
+//		}
+
+	</script>
+</html>

@@ -1,0 +1,50 @@
+
+section{
+	width:100%;
+	height: 100px;
+	display: inline-block;
+}
+section>div{
+	width:100%;
+	height: 200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+section>div div img{
+	width: 120px;
+	height: 120px;
+	cursor: pointer;
+}
+section>div>div>div{
+	text-align: center;
+}
+.tiaozhuan{
+	width: 100%;
+	height: 30px;
+	
+}
+.tiaozhuan{
+	text-align: center;
+}
+.tiaozhuan input{
+	width: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

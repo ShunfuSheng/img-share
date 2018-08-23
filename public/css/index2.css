@@ -1,0 +1,171 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  background-image: url(image/beijing.jpg);
+}
+header {
+  background-color: aliceblue;
+  width: 100%;
+  height: 40px;
+  display: inline-block;
+  top: 0;
+  z-index: 111;
+}
+a,
+p {
+  text-decoration: none;
+  margin: 10px;
+}
+a {
+	cursor: pointer;
+  color: black;
+}
+#head {
+  width: 1000px;
+  height: 40px;
+  margin: auto;
+}
+#head div {
+  display: inline-block;
+}
+#head div:nth-child(1) {
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  margin-left: 20px;
+}
+#head div:nth-child(1) a {
+  color: #2c8c79;
+}
+#head div:nth-child(2) {
+  height: 40px;
+  text-align: center;
+  line-height: 10px;
+  margin-left: 600px;
+}
+#head div:nth-child(2) li {
+  list-style: none;
+}
+#head div:nth-child(2) li a {
+  padding-left: 10px;
+  color: #2c8c79;
+}
+#head div:nth-child(2) li a:hover {
+  padding: 5px 5px;
+  border-radius: 6px;
+  background-color: steelblue;
+  color: white;
+}
+
+main {
+  background-color: rgba(240, 248, 255, 0.8);
+  width: 1000px;
+  height: 750px;
+  margin: 70px auto;
+}
+.png {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  left: 0;
+}
+.png img {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  top: 20px;
+  left: 80px;
+}
+.border div {
+  display: inline-block;
+}
+.title {
+  position: relative;
+  top: -40px;
+  left: 80px;
+}
+.title ul li {
+  list-style: none;
+}
+.title ul li a {
+  padding-left: 10px;
+}
+.title ul li a:hover {
+  padding: 5px 5px;
+  border-radius: 6px;
+  background-color: steelblue;
+  color: white;
+}
+.sousuo {
+  position: relative;
+  top: -40px;
+  left: 250px;
+}
+.sousuo input {
+  border: 1px solid seagreen;
+  border-radius: 10px;
+  width: 200px;
+  height: 30px;
+}
+.sousuo img {
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+.guanli {
+  width: 200px;
+  margin: 20px;
+  position: relative;
+  top: 30px;
+}
+.guanli div {
+  padding-bottom: 20px;
+}
+.guanli div ul li img {
+  position: relative;
+  top: 10px;
+}
+.guanli div span {
+  font-size: 20px;
+}
+.guanli div ul {
+  margin: 0;
+  padding-left: 30px;
+  list-style: none;
+}
+.wodezuopin ul {
+  line-height: 30px;
+}
+.kaishi {
+  display: flex;
+  justify-content: space-between;
+}
+.kaishi > div {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+/*.geren {
+  display: flex;
+  justify-content: flex-start;
+}
+.geren img {
+  margin: 40px 10px 40px 60px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #2c8c79;
+}
+.geren span {
+  padding: 20px;
+  margin: 20px;
+}*/
+iframe{
+  width: 800px;
+  height: 600px;
+	border: 0 none;
+	margin-top: 20px;
+}

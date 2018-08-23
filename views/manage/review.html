@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>作品审核</title>
+		<link rel="stylesheet" type="text/css" href="/css/zuopinshenhe.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body>
+		{{include '../tpl/head'}}
+		<div class="menu">
+			<a class="special" href="/manage/wait_handle" target="right">待处理(<span class="msg"></span>)</a>
+			<a href="/manage/pass" target="right">通过</a>
+			<a href="/manage/dispass" target="right">未通过</a>
+		</div>
+		
+		
+		<iframe scrolling="no" src="/manage/wait_handle" name="right" ></iframe>
+	</body>
+
+	<script>
+		function message(count){
+			document.getElementsByClassName('msg')[0].innerText = count;
+		}
+
+		$('.menu > a').click(function(e){
+			var that = e.currentTarget;
+			$('.menu > a').removeClass('special');
+			$(that).addClass('special');
+		});
+	</script>
+</html>

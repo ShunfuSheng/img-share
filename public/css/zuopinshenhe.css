@@ -1,0 +1,66 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+.nav {
+  background-color: aliceblue;
+  width: 100%;
+  height: 40px;
+}
+.nav > span {
+  color: steelblue;
+  position: relative;
+}
+.nav div {
+  display: inline-block;
+}
+.nav div ul {
+  list-style: none;
+}
+.nav span,
+a {
+  position: relative;
+  top: -5px;
+}
+.nav span {
+  left: 50px;
+}
+.nav a {
+  text-decoration: none;
+  left: 850px;
+  margin: 10px;
+  padding-left: 10px;
+  color: steelblue;
+  cursor: pointer;
+}
+.nav a:hover {
+  padding: 5px 5px;
+  border-radius: 6px;
+  background-color: steelblue;
+  color: white;
+}
+a{
+  cursor: pointer;
+}
+.menu a{
+	display: block;
+	margin: 30px;
+	padding: 10px;
+	border-radius: 10px;
+	width: 100px;
+	text-decoration: none;
+	color: black;
+	text-align: center;
+}
+.special{
+	background-color: darkseagreen;
+	color: white;
+}
+iframe{
+	width: 80%;
+	height: 1000px;
+	position: relative;
+	top: -200px;
+	left: 200px;
+}

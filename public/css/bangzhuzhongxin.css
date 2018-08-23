@@ -1,0 +1,46 @@
+
+html{
+	background-image: url(/images/bangzhu.jpg);
+}
+.nav{
+	float: left;
+	display: inline-block;
+}
+.biaoti{
+	width: 250px;
+	height: 50px;
+}
+.biaoti>span{
+	font-size: 25px;
+	line-height: 50px;
+}
+.biaoti>span>img{
+	position: relative;
+	top: 5px;
+	left: 10px;
+}
+.nav a{
+	display: block;
+	margin: 15px;
+	padding-left: 35px;
+	cursor: pointer;
+	text-decoration: none;
+	color: black;
+}
+.nav a:active{
+	background-color: #2C8C79;
+}
+.special{
+	background-color: darkseagreen;
+	color: white;
+}
+
+
+iframe{
+	background-color: rgba(255, 255, 255, 0.7);
+	border: none;
+	width: 1100px;
+	height: 500px;
+	float: right;
+	top: 0;
+}

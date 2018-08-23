@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的作品</title>
+		<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+		<link rel="stylesheet" href="/plugin/fancybox/helpers/jquery.fancybox-buttons.css">
+		<link rel="stylesheet" href="/plugin/fancybox/helpers/jquery.fancybox-thumbs.css">
+		<link rel="stylesheet" type="text/css" href="/css/zuopin.css" />
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+		<script src="/plugin/fancybox/helpers/jquery.fancybox-buttons.js"></script>
+		<script src="/plugin/fancybox/helpers/jquery.fancybox-thumbs.js"></script>
+	</head>
+	<body>
+		<div>
+			<select name="list" id="list">
+				<option value="0">全部</option>
+				{{if kind == '设计'}}
+					<option selected>设计</option>
+				{{else}}
+					<option>设计</option>
+				{{/if}}
+				{{if kind == '摄影'}}
+					<option selected>摄影</option>
+				{{else}}
+					<option>摄影</option>
+				{{/if}}
+				{{if kind == '多媒体'}}
+					<option selected>多媒体</option>
+				{{else}}
+					<option>多媒体</option>
+				{{/if}}
+			</select>	
+			<button id="manage">管理</button>
+		</div>
+		<section>
+			<div class="img-include">
+				<div class="xinjian">
+					<a href="/Personal/works_upload" style="text-decoration: none;color: steelblue;">+</a>
+					<span style="color: steelblue;">新建</span>
+				</div>
+				
+				{{each data}}
+				<div class="pic" style="position: relative">
+					<a style="position: absolute;width: 100%;height: 100%" href="/uploads/{{$value.dataValues.imgName}}" rel="group"></a>
+					<img src="/uploads/{{$value.dataValues.imgName}}">
+					<div>{{$value.dataValues.kind}}</div>
+				</div>
+				{{/each}}
+
+				<section class="tiaozhuan">
+					{{if currentPage <= 0}}
+						<button disabled>上一页</button>
+					{{else}}
+						{{if kind}}
+							<button onclick="location.href='/Personal/my_works/{{currentPage-1}}?parentKind={{kind}}'">上一页</button>
+						{{else}}
+							<button onclick="location.href='/Personal/my_works/{{currentPage-1}}'">上一页</button>
+						{{/if}}
+					{{/if}}
+
+					{{if currentPage >= totalPage}}
+						<button disabled>下一页</button>
+					{{else}}
+						{{if kind}}
+							<button onclick="location.href='/Personal/my_works/{{currentPage+1}}?parentKind={{kind}}'">下一页</button>
+						{{else}}
+							<button onclick="location.href='/Personal/my_works/{{currentPage+1}}'">下一页</button>
+						{{/if}}
+					{{/if}}
+				</section>
+			</div>
+		</section>
+	</body>
+
+	<script>
+		$(function () {
+			$('#manage').click(function(){
+				var pKind = $('#list').val();
+				if(pKind == 0){
+					window.location.href = '/Personal/my_works';
+				}else{
+					window.location.href = '/Personal/my_works?parentKind=' + pKind;
+				}
+			});
+
+			//调用fancybox插件
+			$('.img-include .pic a').fancybox({
+				// 设置点击缩略图时放大和关闭时的弹性显示效果
+				openEffect: 'elastic',
+				// 图片自动轮播
+				closeEffect: 'elastic',
+				// 设置右上角的关闭按钮的有无
+				closeBtn: false,
+				autoPlay: true,
+				helpers:{
+					buttons: {},
+					// 标题显示位置
+					// title: {type: 'inside'},
+					// 下方缩略图在切换时，缩略图集合整体保持居中，若为false则不居中
+					thumbs: {alwaysCenter:true}
+				},
+				// 在打开之前，获取图片的标题，从当前的节点中提取
+				beforeLoad: function () {
+					this.title = $(this.element).text();
+				}
+			});
+		})
+	</script>
+</html>

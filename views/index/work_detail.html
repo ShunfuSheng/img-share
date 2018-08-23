@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>素材详情</title>
+    <script src="/js/jquery.min.js"></script>
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+            margin: 0;
+        }
+        .nav {
+        background-color: aliceblue;
+        width: 100%;
+        height: 40px;
+        }
+        .nav > span {
+        color: steelblue;
+        position: relative;
+        }
+        .nav div {
+        display: inline-block;
+        }
+        .nav div ul {
+        list-style: none;
+        }
+        .nav span,
+        a {
+        position: relative;
+        top: -5px;
+        }
+        .nav span {
+        left: 50px;
+        }
+        .nav a {
+        text-decoration: none;
+        left: 850px;
+        margin: 10px;
+        padding-left: 10px;
+        color: steelblue;
+        cursor: pointer;
+        }
+        .nav a:hover {
+        padding: 5px 5px;
+        border-radius: 6px;
+        background-color: steelblue;
+        color: white;
+        }
+        main{
+            width: 800px;
+            margin: 50px auto;
+            border: 1px solid black;
+        }
+        figure{
+            width: 100%;
+        }
+        figure img{
+            width: 80%;
+        }
+        figure figcaption{
+            font-size: 28px;
+            text-align: center;
+        }
+        .work-info{
+            background-color: gainsboro;
+            border-top: 1px solid gray;
+        }
+        .work-info p{
+            margin: 0;
+            padding: 20px;
+            padding-right: 0;
+        }
+        .work-info span{
+            padding-right: 55px;
+        }
+        .work-info button{
+            float: right;
+            width: 95px;
+            height: 32px;
+            margin-right: 10px;
+            line-height: 28px;
+            font-size: 24px;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid transparent;
+            background-color: cornflowerblue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    {{include '../tpl/head'}}
+    <main>
+        <figure>
+            <figcaption>{{workData.fileName}}</figcaption>
+            <img src="/uploads/{{workData.imgName}}">
+        </figure>
+        <div class="work-info">
+            <p>
+                <span id="set-num" data-origin="{{workData.isOrigin}}" data-id="{{workData.id}}" data-own="{{uploaderId}}">编号：{{num}}</span>
+                <span>上传时间：{{uploadDate}}</span>
+                <span>大小：{{size}}KB</span>
+                <span>上传者：{{uploader}}</span>
+            </p>
+            <p>
+                <span>格式: {{workData.fileType}}</span>
+                <span class="bonus">所需积分：<i>{{workData.bonusRequire}}</i></span>
+                {{if workData.isOrigin == 1}}
+                    <span>是否原创：原创</span>
+                {{else}}
+                    <span>是否原创：普通</span>
+                {{/if}}
+                <button class="download">下载</button>
+                {{if isCollect == 0}}
+                    <button onclick="collect()">收藏</button>
+                {{else}}
+                    <button onclick="discollect()" style="width: 124px">取消收藏</button>
+                {{/if}}
+                <a id="down" href="{{workData.link}}" download="" style="display: none"><b>下载</b></a>
+            </p>
+        </div>
+    </main>
+</body>
+
+<script>
+    $('.work-info button.download').click(function(){
+        $.ajax({
+            url: '/Index/get_user_info',
+            type: 'get',
+            dataType: 'json',
+            success: function(res){
+                if(res.status){
+                    alert('请先登录!!!');
+                    return false;
+                }
+                var userInfo = res.userInfo;
+                var bonus = Number($('.bonus i').text());
+                //判断素材需要原创积分还是普通积分
+                if($('#set-num').data('origin') == 1){
+                    //判断用户是否有足够的积分下载该素材
+                    if(userInfo.originBonus > bonus){
+                        $.ajax({
+                            url: '/Index/use_bonus',
+                            type: 'post',
+                            data: {originBonus: bonus, totalBonus: userInfo.originBonus},
+                            dataType: 'json',
+                            success: function(res){
+                                if(res.status == 200){
+                                    $('#down b').trigger('click');
+                                }
+                            },
+                            error: function(err){
+                                console.dir(err);
+                                alert('服务器出错了...');
+                            }
+                        });
+                    }else{
+                        alert('你的原创积分不够!!!');
+                    }
+                }else{
+                    if(userInfo.commonBonus > bonus){
+                        $.ajax({
+                            url: '/Index/use_bonus',
+                            type: 'post',
+                            data: {commonBonus: bonus, totalBonus: userInfo.commonBonus},
+                            dataType: 'json',
+                            success: function(res){
+                                if(res.status == 200){
+                                    $('#down b').trigger('click');
+                                }
+                            },
+                            error: function(err){
+                                console.dir(err);
+                                alert('服务器出错了...');
+                            }
+                        });
+                    }else{
+                        alert('你的普通积分不够!!!');
+                    }
+                }
+            },
+            error: function(err){
+                console.dir(err);
+            }
+        });
+    });
+
+    //收藏素材
+    function collect(){
+        $.ajax({
+            url: '/Index/get_user_info',
+            type: 'get',
+            dataType: 'json',
+            success: function(res){
+                if(res.status){
+                    alert('请先登录!!!');
+                    return false;
+                }
+                var fansId = res.userInfo.id;
+                var imgId = $('#set-num').data('id');
+                var userId = $('#set-num').data('own');
+                $.ajax({
+                    url: '/Index/collect_handle',
+                    type: 'post',
+                    data: {fansId: fansId, imgId: imgId, userId: userId},
+                    success: function(res){
+                        if(res.status == 200){
+                            alert('收藏成功!!');
+                            location.reload();
+                        }
+                    },
+                    error: function(err2){
+                        console.dir(err2);
+                    }
+                });
+            },
+            error: function(err){
+                console.dir(err);
+            }
+        });
+    }
+
+    //取消收藏
+    function discollect(){
+        $.ajax({
+            url: '/Index/get_user_info',
+            type: 'get',
+            dataType: 'json',
+            success: function(res){
+                var fansId = res.userInfo.id;
+                var imgId = $('#set-num').data('id');
+                $.ajax({
+                    url: '/Index/discollect_handle',
+                    type: 'post',
+                    data: {fansId: fansId, imgId: imgId},
+                    success: function(res){
+                        if(res.status == 200){
+                            location.reload();
+                        }
+                    },
+                    error: function(err){
+                        console.dir(err);
+                    }
+                });
+            }
+        });
+    }
+</script>
+</html>

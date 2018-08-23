@@ -1,0 +1,39 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  background-image: url(/images/6.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 800px;
+  width: 100%;
+}
+#textContain a{
+	color: steelblue;
+	text-decoration: none;
+}
+#textContain span{
+	font-size: 25px;
+	padding: 20px;
+	position: relative;
+	top: 100px;
+	left: 50px;
+}
+#textContain div{
+	font-size: 25px;
+	padding: 20px;
+	position: relative;
+	top: 160px;
+	left: 50px;
+	
+}
+#textContain div>a{
+	padding: 10px;
+	font-size: 20px;
+	border: 1px solid steelblue;
+	background-color: steelblue;
+	border-radius: 20px;
+	color: white;
+}

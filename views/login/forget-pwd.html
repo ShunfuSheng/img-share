@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>忘记密码</title>
+		<link rel="stylesheet" type="text/css" href="/css/wangjimima.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="logo"><p>找回密码</p></div>
+		<form id="forget-form" action="Login/forget_pwd" method="post">
+			<label for="account">用户名:</label>
+			<input id="account" type="text" name="account" id="account" style="padding-left: 20px;" required placeholder="请输入用户名" />
+			<br /><br />
+			<label for="e-mail">邮箱：</label>
+			<input id="e-mail" type="text" name="email" id="e-mail" style="padding-left: 20px;" required placeholder="请输入邮箱"/>
+			<br /><br />
+			<button type="submit">下一步</button>
+		</form>
+	</body>
+
+	<script>
+		$('#forget-form').submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				url: '/Login/forget_pwd',
+				type: 'post',
+				data: $('#forget-form').serialize(),
+				dataType: 'json',
+				success: function(res){
+					if(res.status == 200){
+						window.location.href = '/Login/reset_pwd?user=' + res.userId;
+					}else{
+						alert('该用户不存在');
+						return false;
+					}
+				},
+				error: function(err){
+					console.dir(err);
+				}
+			});
+		});
+	</script>
+</html>
+
+
+					

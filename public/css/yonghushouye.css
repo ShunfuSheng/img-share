@@ -1,0 +1,22 @@
+.geren {
+  display: flex;
+  justify-content: flex-start;
+}
+.geren img {
+  margin: 40px 10px 40px 60px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #2c8c79;
+}
+.geren>div {
+  padding: 20px;
+  margin: 20px;
+}
+.geren>div p{
+	display: inline-block;
+	margin: 5px;
+}
+.geren>div>p span{
+	margin: 0;
+	color: #2c8c79;
+}

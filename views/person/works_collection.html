@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的收藏</title>
+		<link rel="stylesheet" type="text/css" href="/css/shoucang.css" />
+		<style type="text/css">
+			img:hover{
+				transform: scale(1.5);
+			}
+			#imgContainer > div{
+				width: 170px;
+				display: inline-block;
+			}
+			#imgContainer > div img{
+				width: 100%;
+				height: 170px;
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<div id="imgContainer">
+				{{each imageData}}
+					<div onclick="parent.linkTo('/Index/work_detail?id={{$value.image.id}}')">
+						<img src="/uploads/{{$value.image.imgName}}">
+						<div>{{$value.image.kind}} - {{$value.image.parentKind}}</div>
+					</div>
+				{{/each}}
+			</div>
+			<section class="tiaozhuan">
+				{{if currentPage <= 0}}
+					<button disabled>上一页</button>
+				{{else}}
+					<button onclick="location.href='/Personal/works_collection/{{currentPage-1}}'">上一页</button>
+				{{/if}}
+				
+				{{if currentPage >= totalPages}}
+					<button disabled>下一页</button>
+				{{else}}
+					<button onclick="location.href='/Personal/works_collection/{{currentPage+1}}'">下一页</button>
+				{{/if}}
+			</section>
+		</section>
+	</body>
+
+	<script>
+	</script>
+</html>
+

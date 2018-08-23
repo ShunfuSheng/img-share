@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>待处理页面</title>
+		<script src="/js/jquery.min.js"></script>
+		<script src="/plugin/layer/layer/layer.js"></script>
+		<style type="text/css">
+			html{
+				height: 1000px;
+				overflow-y: auto;
+			}
+			body{
+				margin: 0;
+				padding: 0;
+				height: 990px;
+				overflow-y: auto;
+			}
+			.daohang>div{
+				width: 80%;
+				position: relative;
+				left: 10%;
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.neirong{
+				display: inline;
+				position: relative;
+				left: 5%;
+				display: flex;
+				justify-content: space-between;
+				margin: 15px;
+			}
+			.neirong>div{
+				display: inline-block;
+			}
+			.tu{
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				height: 120px;
+				width: 120px;
+			}
+			.jutineirong{
+				position: relative;
+				left: 20px;
+			}
+			.jutineirong span{
+				display: block;
+				margin: 5px;
+			}
+			.caozuo{
+				position: relative;
+				left: -170px;
+				text-align: center;
+			}
+			.caozuo button{
+				border-radius: 8px;
+				background-color: darkseagreen;
+				color: white;
+				margin: 5px;
+				padding: 3px;
+			}
+			.pass-form, .dispass-form{
+				text-align: center;
+				padding: 30px 0;
+			}
+			.dispass-form div{
+				padding: 20px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="daohang">
+			<div>
+				<span>图片</span>
+				<span>内容</span>
+				<span>操作</span>
+			</div>
+		</div>
+		<hr />
+		
+		{{each waitData}}
+		<section class="neirong">
+			<div class="tu" style="background-image: url(/uploads/{{$value.imgName}})"></div>
+			<div class="jutineirong">
+				<span>标题：{{$value.fileName}}</span>
+				<span>类型：{{$value.type}}</span>
+				<span>类别：{{$value.parentKind}} > {{$value.kind}}</span>
+				<span>参数：{{$value.fileType}} | {{$value.size}}KB</span>
+				<span>发布时间：{{$value.uploadTime}}</span>
+			</div>
+			<div class="caozuo" data-id="{{$value.id}}">
+				<button>通过</button><br />
+				<button>需整改</button>
+			</div>
+		</section>
+		<div style="border: 1px dashed darkgray;position: relative;top: 5px;"></div>
+		{{/each}}
+			
+	</body>
+
+	<script>
+		//计算待处理图片数
+		$.ajax({
+			url: '/manage/wait_count',
+			type: 'get',
+			dataType: 'json',
+			success: function(res){
+				parent.message(res.num);
+			},
+			error: function(err){
+				console.dir(err);
+			}
+		});
+		//处理通过按钮
+		$('.caozuo > button:first-of-type').click(function(e){
+			var imgId = $(e.currentTarget).parent().data('id');
+			var htmlStr = `<form class="pass-form" action="#" onsubmit="toPass(event)" method="post">
+								<div>请选择图片等级：</div>
+								<input type="hidden" name="imgId" value="${imgId}">
+								<div>
+									<input type="radio" name="star" value="1">
+									<label>一星</label>
+								</div>
+								<div>
+									<input type="radio" name="star" value="2">
+									<label>二星</label>
+								</div>
+								<div>
+									<input type="radio" name="star" value="3">
+									<label>三星</label>
+								</div>
+								<div>
+									<input type="radio" name="star" value="4">
+									<label>四星</label>
+								</div>
+								<div>
+									<input type="radio" name="star" value="5">
+									<label>五星</label>
+								</div>
+								<div style="margin-top: 30px;">
+									<input type="submit" value="提交">
+								</div>
+								<p style="color: red; margin: 0"></p>
+							</form>`;
+			layer.open({
+				type: 1,
+				area: ['300px', '320px'],
+				skin: 'layui-layer-demo',
+//				closeBtn: 0, //不显示关闭按钮
+				anim: 2,
+				shadeClose: false,
+				content: htmlStr
+			});
+		});
+
+
+		//需整改按钮
+		$('.caozuo > button:last-of-type').click(function(e){
+			var imgId = $(e.currentTarget).parent().data('id');
+			var htmlStr = `<form class="dispass-form" action="#" method="POST" onsubmit="toDispass(event)">
+								<input type="hidden" name="imgId" value="${imgId}">
+								<div>
+									<label>整改原因: </label>
+									<input type="text" style="width: 200px" name="reason">
+								</div>
+								<input type="submit" value="提交">
+								<p style="color: red; margin: 0"></p>
+							</form>`;
+			layer.open({
+				type: 1,
+				area: ['400px', '250px'],
+				skin: 'layui-layer-demo',
+				// closeBtn: 1, //不显示关闭按钮
+				anim: 2,
+				shadeClose: true,
+				content: htmlStr
+			});
+		});
+
+
+		function toPass(e){
+			e.preventDefault();
+			var arr = $(e.currentTarget).serializeArray();
+			var star = null;
+			arr.forEach(function(item){
+				if(item.name == 'star'){
+					star = item.value;
+				}
+			});
+			if(!star){
+				$(e.currentTarget).find('p').text('请填写该图片的等级!');
+				//如果用户没有选图片等级，则跳出函数
+				return;
+			}
+			$.ajax({
+				url: '/manage/judge_pass',
+				type: 'post',
+				data: $('.pass-form').serialize(),
+				dataType: 'json',
+				success: function(res){
+					if(res.status == 200){
+						parent.message(res.num);
+						location.reload();
+					}
+				},
+				error: function(err){
+					console.dir(err);
+				}
+			});
+		}
+
+
+		function toDispass(e){
+			e.preventDefault();
+			var arr = $(e.currentTarget).serializeArray();
+			var reason = null;
+			arr.forEach(function(item){
+				if(item.name == 'reason'){
+					reason = item.value;
+				}
+			});
+			if(!reason){
+				$(e.currentTarget).find('p').text('请填写未通过的原因!');
+				return;
+			}
+			$.ajax({
+				url: '/manage/judge_dispass',
+				type: 'post',
+				data: $('.dispass-form').serialize(),
+				dataType: 'json',
+				success: function(res){
+					if(res.status == 200){
+						location.reload();
+					}
+				},
+				error: function(err){
+					console.dir(err);
+				}
+			})
+		}
+	</script>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户</title>
+		<link rel="stylesheet" type="text/css" href="/css/index3.css" />
+	</head>
+	<body>
+		{{include '../tpl/head'}}
+		
+		<main>
+			<section class="border">
+				<div class="png"><img src="/images/logo.gif" ></div>
+				<div class="title">
+					<ul>
+						<li>
+							<a href="/Index/">首页</a>
+							<a href="/Personal/index2" onclick="reset()" target="right">个人主页</a>
+						</li>
+					</ul>
+				</div>
+				<div class="sousuo"></div>
+			</section>
+			<section class="kaishi">
+				<div class="guanli">
+					<div class="wodezuopin">
+						<span>&#X3000;我的作品</span>
+						<ul>
+							<li>
+								<a href="/Personal/works_upload" target="right"><img src="/images/上传.png" alt="" />&#X3000;作品上传</a><br />
+								<a href="/Personal/works_manage" target="right"><img src="/images/作品管理.png" alt="" />&#X3000;作品管理</a><br />
+								<a href="/Personal/my_works" target="right"><img src="/images/专辑管理.png" alt="" />&#X3000;专辑管理</a><br />
+								<a href="/Personal/works_collection" target="right"><img src="/images/收藏.png" alt="" />&#X3000;作品收藏</a>
+							</li>
+						</ul>
+					</div>
+					<div class="zhanghuguanli">
+						<span>&#X3000;积分管理</span>
+						<ul>
+							<li>
+								<a href="/Personal/bonus"  target="right"><img src="/images/共享分.png" alt="" />&#X3000;积分</a>
+								
+							</li>
+						</ul>
+					</div>
+					<div class="dengichengzhang">
+						<span>&#X3000;等级管理</span>
+						<ul>
+							<li>
+								<a href="/Personal/user_level"  target="right"><img src="/images/原创等级.png" alt="" />&#X3000;用户等级</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<iframe scrolling="no" src="/Personal/index2" name="right" ></iframe>
+				
+			</section>
+		</main>
+		<footer></footer>
+		
+		<script>
+			var links = document.querySelectorAll('.guanli a');
+			for(var i=0; i<links.length; i++){
+				links[i].onclick = function(){
+					for(var j=0; j<links.length; j++){
+						links[j].style.color = 'black';
+					}
+					this.style.color = 'greenyellow';
+				}
+			}
+
+			function reset(){
+				for(var i=0; i<links.length; i++){
+					links[i].style.color = 'black';
+				}
+			}
+
+			function linkTo(url){
+				window.location.href = url;
+			}
+		</script>
+	</body>
+</html>
